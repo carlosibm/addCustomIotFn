@@ -14,15 +14,15 @@ logger = logging.getLogger(__name__)
 # Specify the URL to your package here.
 # This URL must be accessible via pip install
 
-PACKAGE_URL = 'git+https://github.com/<path_to_repository>@'
+PACKAGE_URL = 'git+https://github.com/ankit-jha/addCustomIotFn@flatline_anomaly_package'
+#origin	https://github.com/ankit-jha/addCustomIotFn.git (fetch)
 
-
-class HelloWorld(BaseTransformer):
+class FlatlineAnomalyGenerator(BaseTransformer):
     '''
-    The docstring of the function will show as the function description in the UI.
+    This function generates flatline anomaly.
     '''
 
-    def __init__(self, name, greeting_col):
+    def __init__(self, input_items, windowsize, output_items):
         # a function is expected to have at least one parameter that acts
         # as an input argument, e.g. "name" is an argument that represents the
         # name to be used in the greeting. It is an "input" as it is something
@@ -35,8 +35,9 @@ class HelloWorld(BaseTransformer):
 
         # always create an instance variable with the same name as your arguments
 
-        self.name = name
-        self.greeting_col = greeting_col
+        self.input_items = input_items
+        self.output_items = output_items
+        self.windowsize = int(windowsize)
         super().__init__()
 
         # do not place any business logic in the __init__ method  # all business logic goes into the execute() method or methods called by the  # execute() method
@@ -45,20 +46,38 @@ class HelloWorld(BaseTransformer):
         # the execute() method accepts a dataframe as input and returns a dataframe as output
         # the output dataframe is expected to produce at least one new output column
 
-        df[self.greeting_col] = 'Hello %s' % self.name
+        df = df.copy()
+        for i,input_item in enumerate(self.input_items):
+            df[self.output_items[i]] = df[input_item] * self.windowsize
+        return df
 
         # If the function has no new output data, output a status_flag instead
         # e.g. df[<self.output_col_arg>> = True
 
         return df
 
+    
     @classmethod
     def build_ui(cls):
-        # Your function will UI built automatically for configuring it
-        # This method describes the contents of the dialog that will be built
-        # Account for each argument - specifying it as a ui object in the "inputs" or "outputs" list
+        # define arguments that behave as function inputs
+        inputs = []
+        inputs.append(UISingleItem(
+                name='input_item',
+                datatype=float,
+                description='Column for feature extraction'
+                                              ))
 
-        inputs = [ui.UISingle(name='name', datatype=str, description='Name of person to greet')]
-        outputs = [
-            ui.UIFunctionOutSingle(name='greeting_col', datatype=str, description='Output item produced by function')]
+        inputs.append(UISingle(
+                name='windowsize',
+                datatype=int,
+                description='Window size for anomaly creation- default 12'
+                                              ))
+
+        # define arguments that behave as function outputs
+        outputs = []
+        outputs.append(UIFunctionOutSingle(
+                name='output_item',
+                datatype=float,
+                description='Generated Data With Anomaly Score'
+                ))
         return (inputs, outputs)

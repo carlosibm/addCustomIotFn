@@ -7,8 +7,7 @@ import numpy as np
 import pandas as pd
 
 from iotfunctions.base import BaseTransformer
-from iotfunctions import ui
-
+from iotfunctions.ui import (UISingle, UIMultiItem, UIFunctionOutSingle, UISingleItem, UIFunctionOutMulti)
 logger = logging.getLogger(__name__)
 
 # Specify the URL to your package here.
@@ -62,7 +61,7 @@ class FlatlineAnomalyGenerator(BaseTransformer):
         # define arguments that behave as function inputs
         inputs = []
         inputs.append(UISingleItem(
-                name='input_item',
+                name='input_items',
                 datatype=float,
                 description='Column for feature extraction'
                                               ))
@@ -76,7 +75,7 @@ class FlatlineAnomalyGenerator(BaseTransformer):
         # define arguments that behave as function outputs
         outputs = []
         outputs.append(UIFunctionOutSingle(
-                name='output_item',
+                name='output_items',
                 datatype=float,
                 description='Generated Data With Anomaly Score'
                 ))

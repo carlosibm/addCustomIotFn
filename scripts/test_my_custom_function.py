@@ -16,9 +16,11 @@ db = Database(credentials=credentials)
 
 from flatlineanomalyaj.flatlineanomalygeneratoraj import FlatlineAnomalyGenerator
 fn = FlatlineAnomalyGenerator(
-    input_items = ['speed'],
-    windowsize = '2',
-    output_items = ['adjusted_speed']
+    input_item = ['speed'],
+    width = '120',
+    factor = '4',
+    output_item = ['adjusted_speed']
               )
 df = fn.execute_local_test(db=db, db_schema=db_schema, generate_days=1,to_csv=True)
 print(df)
+df.to_csv('test.csv')

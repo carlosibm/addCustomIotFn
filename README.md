@@ -1,11 +1,11 @@
-# Empty Python Package
+# Flatline Anomaly Package
 
-This package is empty. 
+This package is create flatline anomalies. 
 
 To install this package: 
 
 ```
-pip install git+git://github.com/ibm-watson-iot/functions@production --upgrade
+pip install git+https://github.com/ankit-jha/addCustomIotFn@flatline_anomaly_package --upgrade
 ```
 
 Prereqs are:

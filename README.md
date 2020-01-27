@@ -1,11 +1,11 @@
-# Flatline Anomaly Package
+# NoData Anomaly Package
 
 This package is create flatline anomalies. 
 
 To install this package: 
 
 ```
-pip install git+https://github.com/ankit-jha/addCustomIotFn@flatline_anomaly_package --upgrade
+pip install git+https://github.com/ankit-jha/addCustomIotFn@nodata_anomaly_package --upgrade
 ```
 
 Prereqs are:

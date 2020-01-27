@@ -6,11 +6,11 @@ from iotfunctions.base import BaseTransformer
 from iotfunctions.ui import (UISingle, UIFunctionOutSingle, UISingleItem)
 logger = logging.getLogger(__name__)
 
-PACKAGE_URL = 'git+https://github.com/ankit-jha/addCustomIotFn@flatline_anomaly_package'
+PACKAGE_URL = 'git+https://github.com/ankit-jha/addCustomIotFn@nodata_anomaly_package'
 
-class FlatlineAnomalyGenerator(BaseTransformer):
+class NoDataAnomalyGenerator(BaseTransformer):
     '''
-    This function generates flatline anomaly.
+    This function generates nodata anomaly.
     '''
 
     def __init__(self, input_item, width, factor, output_item):
@@ -33,8 +33,7 @@ class FlatlineAnomalyGenerator(BaseTransformer):
             timestamps_indexes.append((start,end))
         #Create flatline anomalies in every split
         for start, end in timestamps_indexes:
-            local_mean = timeseries.iloc[max(0, start - 10):end + 10][self.input_item].mean()
-            additional_values.iloc[start:end] += local_mean - timeseries[self.input_item].iloc[start:end]
+            additional_values.iloc[start:end] += np.NaN
             timeseries[self.output_item] = additional_values + timeseries[self.input_item]
 
         timeseries.set_index(df.index.names,inplace=True)
@@ -58,13 +57,13 @@ class FlatlineAnomalyGenerator(BaseTransformer):
         inputs.append(UISingle(
                 name='factor',
                 datatype=int,
-                description='No. of flatline anomalies to be created'
+                description='No. of nodata anomalies to be created'
                                               ))
 
         outputs = []
         outputs.append(UIFunctionOutSingle(
                 name='output_item',
                 datatype=float,
-                description='Generated Item With Flatline anomalies'
+                description='Generated Item With NoData anomalies'
                 ))
         return (inputs, outputs)

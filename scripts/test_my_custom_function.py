@@ -14,8 +14,8 @@ with open('credentials_as.json', encoding='utf-8') as F:
 db_schema = None
 db = Database(credentials=credentials)
 
-from flatlineanomalyaj.flatlineanomalygeneratoraj import FlatlineAnomalyGenerator
-fn = FlatlineAnomalyGenerator(
+from nodataanomaly.nodataanomalygenerator import NoDataAnomalyGenerator
+fn = NoDataAnomalyGenerator(
     input_item = ['speed'],
     width = '120',
     factor = '4',

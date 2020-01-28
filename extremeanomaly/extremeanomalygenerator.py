@@ -23,8 +23,6 @@ class ExtremeAnomalyGenerator(BaseTransformer):
     def execute(self, df):
         timeseries = df.copy().reset_index()
         #Create a zero value series
-        #additional_values = timeseries[self.input_item].copy()
-        #additional_values.loc[:,:] = 0
         additional_values = pd.Series(np.zeros(timeseries[self.input_item].size),index=timeseries.index)
         timestamps_indexes = []
         #Divide the timeseries in (factor)number of splits.Each split will have one anomaly
@@ -33,7 +31,7 @@ class ExtremeAnomalyGenerator(BaseTransformer):
             timestamps_indexes.append(start)
         #Create extreme anomalies in every split
         for start  in timestamps_indexes:
-            local_std = timeseries.iloc[max(0, start - 10):start + 10].std()
+            local_std = timeseries[self.input_item].iloc[max(0, start - 10):start + 10].std()
             additional_values.iloc[start] += np.random.choice([-1, 1]) * self.size * local_std
             timeseries[self.output_item] = additional_values + timeseries[self.input_item]
 

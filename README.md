@@ -1,12 +1,14 @@
-# NoData Anomaly Package
+# Extreme Anomaly Package
 
-This package is create flatline anomalies. 
+This package creates extreme anomalies. 
+
 
 To install this package: 
 
 ```
-pip install git+https://github.com/ankit-jha/addCustomIotFn@nodata_anomaly_package --upgrade
+pip install git+https://github.com/ankit-jha/addCustomIotFn@extreme_anomaly_package --upgrade
 ```
+
 
 Prereqs are:
 

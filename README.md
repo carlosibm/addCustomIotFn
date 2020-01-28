@@ -2,6 +2,8 @@
 
 This package is create flatline anomalies. 
 
+![anomaly](https://raw.githubusercontent.com/ankit-jha/addCustomIotFn/flatline_anomaly_package/anomaly.png)
+
 To install this package: 
 
 ```

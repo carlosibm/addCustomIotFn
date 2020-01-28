@@ -17,7 +17,7 @@ db = Database(credentials=credentials)
 from flatlineanomalyaj.flatlineanomalygeneratoraj import FlatlineAnomalyGenerator
 fn = FlatlineAnomalyGenerator(
     input_item = ['speed'],
-    width = '120',
+    width = '70',
     factor = '4',
     output_item = ['adjusted_speed']
               )

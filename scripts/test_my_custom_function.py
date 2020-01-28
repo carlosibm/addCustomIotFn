@@ -14,11 +14,11 @@ with open('credentials_as.json', encoding='utf-8') as F:
 db_schema = None
 db = Database(credentials=credentials)
 
-from nodataanomaly.nodataanomalygenerator import NoDataAnomalyGenerator
-fn = NoDataAnomalyGenerator(
+from extremeanomaly.extremeanomalygenerator import ExtremeAnomalyGenerator
+fn = ExtremeAnomalyGenerator(
     input_item = ['speed'],
-    width = '120',
     factor = '4',
+    size = '10',
     output_item = ['adjusted_speed']
               )
 df = fn.execute_local_test(db=db, db_schema=db_schema, generate_days=1,to_csv=True)

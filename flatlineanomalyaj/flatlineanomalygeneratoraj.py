@@ -23,8 +23,7 @@ class FlatlineAnomalyGenerator(BaseTransformer):
     def execute(self, df):
         timeseries = df.copy().reset_index()
         #Create a zero value series
-        additional_values = timeseries[self.input_item].copy()
-        additional_values.loc[:,:] = 0
+        additional_values = pd.Series(np.zeros(timeseries[self.input_item].size),index=timeseries.index)
         timestamps_indexes = []
         #Divide the timeseries in (factor)number of splits.Each split will have one anomaly
         for time_splits in np.array_split(timeseries,self.factor):

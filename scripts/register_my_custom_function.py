@@ -14,7 +14,7 @@ with open('credentials_as.json', encoding='utf-8') as F:
 db_schema = None
 db = Database(credentials=credentials)
 
-from customaj.multiplybyfactoraj import MultiplyByFactorAJ
+from nodataanomaly.nodataanomalygenerator import NoDataAnomalyGenerator
 
-db.register_functions([MultiplyByFactorAJ])
+db.register_functions([NoDataAnomalyGenerator])
 

@@ -21,21 +21,31 @@ class ExtremeAnomalyGenerator(BaseTransformer):
         super().__init__()
 
     def execute(self, df):
+        currentdt = datetime.datetime.now()
+        logger.debug("-----------....")
+        logger.debug(str(currentdt))
         timeseries = df.copy().reset_index()
         #Create a zero value series
         additional_values = pd.Series(np.zeros(timeseries[self.input_item].size),index=timeseries.index)
         timestamps_indexes = []
+        logger.debug("--additional_values shape--{}".format(additional_values.shape))
         #Divide the timeseries in (factor)number of splits.Each split will have one anomaly
         for time_splits in np.array_split(timeseries,self.factor):
             start = time_splits.sample(1).index[0]
             timestamps_indexes.append(start)
+        logger.debug("--timestamps --{}".format(timestamps_indexes))
         #Create extreme anomalies in every split
         for start  in timestamps_indexes:
             local_std = timeseries[self.input_item].iloc[max(0, start - 10):start + 10].std()
+            logger.debug("--local_std --{}".format(local_std))
+            logger.debug("--additional_values before --{}".format(additional_values.iloc[start]))
             additional_values.iloc[start] += np.random.choice([-1, 1]) * self.size * local_std
+            logger.debug("--additional_values after --{}".format(additional_values.iloc[start]))
             timeseries[self.output_item] = additional_values + timeseries[self.input_item]
 
         timeseries.set_index(df.index.names,inplace=True)
+        logger.debug("-----------....")
+        logger.debug(str(currentdt))
         return timeseries
 
     @classmethod

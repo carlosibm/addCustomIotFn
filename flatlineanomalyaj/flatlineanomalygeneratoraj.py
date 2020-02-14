@@ -21,7 +21,9 @@ class FlatlineAnomalyGenerator(BaseTransformer):
         super().__init__()
 
     def execute(self, df):
-        timeseries = df.copy().reset_index()
+        logger.debug("-----------....")
+        logger.debug(str(currentdt))
+        timeseries = df.reset_index()
         #Create a zero value series
         additional_values = pd.Series(np.zeros(timeseries[self.input_item].size),index=timeseries.index)
         timestamps_indexes = []
@@ -33,10 +35,15 @@ class FlatlineAnomalyGenerator(BaseTransformer):
         #Create flatline anomalies in every split
         for start, end in timestamps_indexes:
             local_mean = timeseries.iloc[max(0, start - 10):end + 10][self.input_item].mean()
+            logger.debug("local mean {}".format(local_mean))
             additional_values.iloc[start:end] += local_mean - timeseries[self.input_item].iloc[start:end]
+            logger.debug("additional_values {}".format(additional_values.iloc[start:end]))
+            logger.debug("time_series input item values {}".format(timeseries[self.input_item].iloc[start:end]))
             timeseries[self.output_item] = additional_values + timeseries[self.input_item]
 
-        timeseries.set_index(df.index.names,inplace=True)
+        timeseries.set_index(df.index.names,inplace=true)
+        logger.debug("-----------....")
+        logger.debug(str(currentdt))
         return timeseries
 
     @classmethod

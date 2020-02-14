@@ -1,6 +1,7 @@
 import logging
 import numpy as np
 import pandas as pd
+import datetime
 
 from iotfunctions.base import BaseTransformer
 from iotfunctions.ui import (UISingle, UIFunctionOutSingle, UISingleItem)
@@ -21,6 +22,7 @@ class FlatlineAnomalyGenerator(BaseTransformer):
         super().__init__()
 
     def execute(self, df):
+        currentdt = datetime.datetime.now()
         logger.debug("-----------....")
         logger.debug(str(currentdt))
         timeseries = df.reset_index()

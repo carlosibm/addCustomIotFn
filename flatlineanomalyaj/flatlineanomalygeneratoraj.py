@@ -31,7 +31,7 @@ class FlatlineAnomalyGenerator(BaseTransformer):
         timestamps_indexes = []
         #Divide the timeseries in (factor)number of splits.Each split will have one anomaly
         for time_splits in np.array_split(timeseries,self.factor):
-            start = time_splits.sample().index[0]
+            start = time_splits.sample(1).index[0]
             end = min(start+self.width,time_splits.index[-1])
             timestamps_indexes.append((start,end))
         #Create flatline anomalies in every split

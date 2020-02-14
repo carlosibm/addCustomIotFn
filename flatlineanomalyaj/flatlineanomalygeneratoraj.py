@@ -43,7 +43,7 @@ class FlatlineAnomalyGenerator(BaseTransformer):
             logger.debug("time_series input item values {}".format(timeseries[self.input_item].iloc[start:end]))
             timeseries[self.output_item] = additional_values + timeseries[self.input_item]
 
-        timeseries.set_index(df.index.names,inplace=true)
+        timeseries.set_index(df.index.names,inplace=True)
         logger.debug("-----------....")
         logger.debug(str(currentdt))
         return timeseries
